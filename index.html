@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天气查询</title>
+    <link rel="stylesheet" type="text/css" href="weather.css">
+    <link rel="icon"  href="img/1.png"></link>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <script type="text/javascript" src="weather.js"></script>
+</head>
+<body>
+    <div id="background_pic">
+
+        <!-- 收藏夹 -->
+        <ul id="favorite"></ul>
+
+        <!-- 头部信息 -->
+        <div id="header">
+            <h1><font face='cursive' color='white'><b>❄↑ 气象台 ↑❄</b></font></h1>
+            <div id="weather_search">
+                <a href="javascript:;" id="add">[添加收藏]</a>
+                <span><input id="text" type="text" placeholder="请输入您要查询的城市"/></span>
+                <span><input id="btn" type="button" value="查询天气"/></span>
+            </div>
+        </div>
+
+        <!-- 今日天气 -->
+        <div id="main">
+            <div id="message">
+                <span id="City">北京</span>
+            </div>
+            <div id="today">
+                <p id="Time"></p>
+                <div id="day">
+                    <div id="day_title">昼间天气</div>
+                    <div id="day_main">
+                        <p id="day_temperature"></p>
+                        <p id="day_weather"></p>
+                        <img id="day_pic" alt="天气"/>
+                    </div>
+                    <div id="day_other">
+                        <span id="day_wind_direction"></span>
+                        <span id="day_wind_power"></span>
+                    </div>
+                </div>
+                <div id="night">
+                    <div id="night_title">夜间天气</div>
+                    <div id="night_main">
+                        <p id="night_temperature"></p>
+                        <p id="night_weather"></p>
+                        <img id="night_pic" alt="天气"/>
+                    </div>
+                    <div id="night_other">
+                        <span id="night_wind_direction"></span>
+                        <span id="night_wind_power"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 24小时天气预报逐时表 -->
+        <div id="hours">
+            <div class="title" id="title1">
+                <h2>逐小时预报</h2>
+            </div>
+            <!-- <div id="Button">
+                <a href="javascript:;" id="left" class="button1">&lt;</a>
+                <a href="javascript:;" id="right" class="button1">&gt;</a>
+            </div> -->
+            <div id="hourweather">
+                <ol id="hour_weather"></ol>
+            </div>
+        </div>
+
+        <!-- 将来七天天气预报绘图  -->
+        <div id="chart">
+            <div class="weather-container">
+                <canvas id="myCanvas" width="750" height="150"></canvas>
+                <a class="oneDayWeather" target="_blank">
+                    <div class="Datetime" id="Date0">今天</div>
+                    <div class="dayWeather" id="dayWeather0"></div>
+                    <img class="dayWeatherPic" id="dayWeatherPic0"/>
+                    <div class="dayTemp" id="dayTemp0"></div>
+                    <div class="nightTemp" id="nightTemp0"></div>
+                    <img class="nightWeatherPic" id="nightWeatherPic0"/>
+                    <div class="nightWeather" id="nightWeather0"></div>
+                </a>
+                <a class="oneDayWeather" target="_blank">
+                    <div class="Datetime" id="Date1">明天</div>
+                    <div class="dayWeather" id="dayWeather1"></div>
+                    <img class="dayWeatherPic" id="dayWeatherPic1"/>
+                    <div class="dayTemp" id="dayTemp1"></div>
+                    <div class="nightTemp" id="nightTemp1"></div>
+                    <img class="nightWeatherPic" id="nightWeatherPic1"/>
+                    <div class="nightWeather" id="nightWeather1"></div>
+                </a>
+                <a class="oneDayWeather" target="_blank">
+                    <div class="Datetime" id="Date2">后天</div>
+                    <div class="dayWeather" id="dayWeather2"></div>
+                    <img class="dayWeatherPic" id="dayWeatherPic2"/>
+                    <div class="dayTemp" id="dayTemp2"></div>
+                    <div class="nightTemp" id="nightTemp2"></div>
+                    <img class="nightWeatherPic" id="nightWeatherPic2"/>
+                    <div class="nightWeather" id="nightWeather2"></div>
+                </a>
+                <a class="oneDayWeather" target="_blank">
+                    <div class="Datetime" id="Date3"></div>
+                    <div class="dayWeather" id="dayWeather3"></div>
+                    <img class="dayWeatherPic" id="dayWeatherPic3"/>
+                    <div class="dayTemp" id="dayTemp3"></div>
+                    <div class="nightTemp" id="nightTemp3"></div>
+                    <img class="nightWeatherPic" id="nightWeatherPic3"/>
+                    <div class="nightWeather" id="nightWeather3"></div>
+                </a>
+                <a class="oneDayWeather" target="_blank">
+                    <div class="Datetime" id="Date4"></div>
+                    <div class="dayWeather" id="dayWeather4"></div>
+                    <img class="dayWeatherPic" id="dayWeatherPic4"/>
+                    <div class="dayTemp" id="dayTemp4"></div>
+                    <div class="nightTemp" id="nightTemp4"></div>
+                    <img class="nightWeatherPic" id="nightWeatherPic4"/>
+                    <div class="nightWeather" id="nightWeather4"></div>
+                </a>
+                <a class="oneDayWeather" target="_blank">
+                    <div class="Datetime" id="Date5"></div>
+                    <div class="dayWeather" id="dayWeather5"></div>
+                    <img class="dayWeatherPic" id="dayWeatherPic5"/>
+                    <div class="dayTemp" id="dayTemp5"></div>
+                    <div class="nightTemp" id="nightTemp5"></div>
+                    <img class="nightWeatherPic" id="nightWeatherPic5"/>
+                    <div class="nightWeather" id="nightWeather5"></div>
+                </a>
+                <a class="oneDayWeather" target="_blank">
+                    <div class="Datetime" id="Date6"></div>
+                    <div class="dayWeather" id="dayWeather6"></div>
+                    <img class="dayWeatherPic" id="dayWeatherPic6"/>
+                    <div class="dayTemp" id="dayTemp6"></div>
+                    <div class="nightTemp" id="nightTemp6"></div>
+                    <img class="nightWeatherPic" id="nightWeatherPic6"/>
+                    <div class="nightWeather" id="nightWeather6"></div>
+                </a>
+            </div>
+        </div>
+
+        <!-- 生活小贴士 -->
+        <div id="tip">
+            <div class="title" id="title2">
+                <h2>生活小贴士</h2>
+            </div>
+            <div id="box">
+            <ul id="livingList">
+                <li class="living" id="living0">
+                    <div class="sub" id="sub1">
+                        <p class="living_in_iv" id="living_in_iv1"></p>
+                    </div>
+                    <div class="detail" id="detail1">
+                        <p class="living_detail" id="living_detail1"></p>
+                    </div>
+                </li>
+                <li class="living" id="living2">
+                    <div class="sub" id="sub2">
+                        <p class="living_in_iv" id="living_in_iv2"></p>
+                    </div>
+                    <div class="detail" id="detail2">
+                        <p class="living_detail" id="living_detail2"></p>
+                    </div>
+                </li>
+                <li class="living" id="living3">
+                    <div class="sub" id="sub3">
+                        <p class="living_in_iv" id="living_in_iv3"></p>
+                    </div>
+                    <div class="detail" id="detail3">
+                        <p class="living_detail" id="living_detail3"></p>
+                    </div>
+                </li>
+                <li class="living" id="living4">
+                    <div class="sub" id="sub4">
+                        <p class="living_in_iv" id="living_in_iv4"></p>
+                    </div>
+                    <div class="detail" id="detail4">
+                        <p class="living_detail" id="living_detail4"></p>
+                    </div>
+                </li>
+                <li class="living" id="living5">
+                    <div class="sub" id="sub5">
+                        <p class="living_in_iv" id="living_in_iv5"></p>
+                    </div>
+                    <div class="detail" id="detail5">
+                        <p class="living_detail" id="living_detail5"></p>
+                    </div>
+                </li>
+                <li class="living" id="living6">
+                    <div class="sub" id="sub6">
+                        <p class="living_in_iv" id="living_in_iv6"></p>
+                    </div>
+                    <div class="detail" id="detail6">
+                        <p class="living_detail" id="living_detail6"></p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        </div>
+
+    </div>
+</body>
+</html>
